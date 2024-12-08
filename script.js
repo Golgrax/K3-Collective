@@ -1,6 +1,20 @@
 const wrapper = document.querySelector('.sliderWrapper');
 
 const menuItems = document.querySelectorAll('.menuItem');
+// loading
+document.addEventListener('DOMContentLoaded', () => {
+  const loadingScreen = document.querySelector('.loading');
+
+  // Wait 10 seconds before hiding the loading screen
+  setTimeout(() => {
+    loadingScreen.classList.add('hidden');
+
+    // Remove the loading screen from the DOM after the animation
+    loadingScreen.addEventListener('transitionend', () => {
+      loadingScreen.remove();
+    });
+  }, 4000); 
+});
 
 const products = [
   {
@@ -135,3 +149,5 @@ productButton.addEventListener('click', () => {
 close.addEventListener('click', () => {
   payment.style.display = 'none';
 });
+
+

@@ -6,6 +6,49 @@ body {
   margin: 0;
   padding: 0;
 }
+/* Loading */
+/* Loading Screen */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+.loading.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-text {
+  display: flex;
+  gap: 5px;
+}
+
+.loading-text-words {
+  color: white;
+  font-family: 'Lato', sans-serif;
+  font-size: 2rem;
+  animation: blur-animation 1.5s infinite linear alternate;
+}
+
+@keyframes blur-animation {
+  0% {
+    filter: blur(0px);
+  }
+  100% {
+    filter: blur(4px);
+  }
+}
 
 /* NAVIGATION BAR */
 
