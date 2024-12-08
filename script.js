@@ -1,11 +1,12 @@
 const wrapper = document.querySelector('.sliderWrapper');
-
 const menuItems = document.querySelectorAll('.menuItem');
-// loading
+const footerListItems = document.querySelectorAll('.footerListItem');
+
+// loading screen logic
 document.addEventListener('DOMContentLoaded', () => {
   const loadingScreen = document.querySelector('.loading');
 
-  // Wait 10 seconds before hiding the loading screen
+  // Wait 4 seconds before hiding the loading screen
   setTimeout(() => {
     loadingScreen.classList.add('hidden');
 
@@ -16,11 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 4000); 
 });
 
+// Define products
 const products = [
   {
     id: 1,
     title: 'Air Force',
-    price: 6882.96, // Removed commas
+    price: 6882.96,
     colors: [
       {
         code: 'black',
@@ -35,7 +37,7 @@ const products = [
   {
     id: 2,
     title: 'Air Jordan',
-    price: 8618.16, // Updated price from HTML
+    price: 8618.16,
     colors: [
       {
         code: 'lightgray',
@@ -50,7 +52,7 @@ const products = [
   {
     id: 3,
     title: 'Blazer',
-    price: 7461.36, // Updated price from HTML
+    price: 7461.36,
     colors: [
       {
         code: 'lightgray',
@@ -65,7 +67,7 @@ const products = [
   {
     id: 4,
     title: 'Crater',
-    price: 6304.56, // Updated price from HTML
+    price: 6304.56,
     colors: [
       {
         code: 'black',
@@ -80,7 +82,7 @@ const products = [
   {
     id: 5,
     title: 'Hippie',
-    price: 5726.16, // Updated price from HTML
+    price: 5726.16,
     colors: [
       {
         code: 'gray',
@@ -94,6 +96,7 @@ const products = [
   },
 ];
 
+// Initial chosen product
 let chosenProduct = products[0];
 
 const currentProductImg = document.querySelector('.productImage');
@@ -102,43 +105,75 @@ const currentProductPrice = document.querySelector('.productPrice');
 const currentProductColors = document.querySelectorAll('.color');
 const currentProductSizes = document.querySelectorAll('.size');
 
+// Update the product details based on the selected item
+const updateProduct = (index) => {
+  // Change the current slide
+  wrapper.style.transform = `translateX(${-100 * index}vw)`;
+
+  // Change the chosen product
+  chosenProduct = products[index];
+
+  // Update the text and image for the chosen product
+  currentProductTitle.textContent = chosenProduct.title.toUpperCase();
+  currentProductPrice.textContent = '₱' + chosenProduct.price;
+  currentProductImg.src = chosenProduct.colors[0].img;
+
+  // Update color options
+  currentProductColors.forEach((color, index) => {
+    color.style.backgroundColor = chosenProduct.colors[index].code;
+  });
+};
+
+// Handle menu item clicks
 menuItems.forEach((item, index) => {
   item.addEventListener('click', () => {
-    //changes the current slide
-    wrapper.style.transform = `translateX(${-100 * index}vw)`;
-
-    //changes the chosen product
-    chosenProduct = products[index];
-
-    //changes the texts of current product
-    currentProductTitle.textContent = chosenProduct.title.toUpperCase();
-    currentProductPrice.textContent = '₱' + chosenProduct.price;
-    currentProductImg.src = chosenProduct.colors[0].img;
-
-    //changes the style of product by selected color
-    currentProductColors.forEach((color, index) => {
-      color.style.backgroundColor = chosenProduct.colors[index].code;
-    });
+    updateProduct(index);
   });
 });
 
+// Handle footer item clicks (scroll to section within #nav)
+footerListItems.forEach((item) => {
+  item.addEventListener('click', (e) => {
+    const targetId = item.getAttribute('data-target');  // Get target section ID
+    const targetElement = document.querySelector(targetId);
+    
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop,
+        behavior: 'smooth', // Smooth scrolling to the section
+      });
+    }
+    
+    // Optional: Update the product as well
+    const index = parseInt(item.getAttribute('data-index'));
+    updateProduct(index);  // This will still update the product details based on the index
+  });
+});
+
+
+// Handle color selection
 currentProductColors.forEach((color, index) => {
   color.addEventListener('click', () => {
     currentProductImg.src = chosenProduct.colors[index].img;
   });
 });
 
-currentProductSizes.forEach((size, index) => {
+// Handle size selection
+currentProductSizes.forEach((size) => {
   size.addEventListener('click', () => {
+    // Reset all sizes to default
     currentProductSizes.forEach((size) => {
       size.style.backgroundColor = 'white';
       size.style.color = 'black';
     });
+
+    // Select the clicked size
     size.style.backgroundColor = 'black';
     size.style.color = 'white';
   });
 });
 
+// Handle product purchase button click
 const productButton = document.querySelector('.productButton');
 const payment = document.querySelector('.payment');
 const close = document.querySelector('.close');
@@ -146,8 +181,7 @@ const close = document.querySelector('.close');
 productButton.addEventListener('click', () => {
   payment.style.display = 'flex';
 });
+
 close.addEventListener('click', () => {
   payment.style.display = 'none';
 });
-
-
