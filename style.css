@@ -270,7 +270,7 @@ nav {
 
 .product {
   height: 100vh;
-  background-color: whitesmoke;
+  background-color: #111111;
   position: relative;
   clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
 }
