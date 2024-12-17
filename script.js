@@ -174,7 +174,11 @@ currentProductSizes.forEach((size) => {
 });
 
 // Handle product purchase button click
-const productButton = document.querySelector('.productButton');
+productButton.addEventListener('click', () => {
+  // Change window location to shoe2.html instead of opening a payment screen
+  window.location.href = 'shoe2.html';
+});
+
 const payment = document.querySelector('.payment');
 const close = document.querySelector('.close');
 
